@@ -13,6 +13,10 @@ class MecanicienController extends Controller
     public function index()
     {
         //
+
+        $mecaniciens= Mecanicien::orderBy('created_at', 'desc')->paginate(10);
+        
+        return view('mecanicien.index',compact('mecaniciens'));
     }
 
     /**
@@ -29,6 +33,19 @@ class MecanicienController extends Controller
     public function store(Request $request)
     {
         //
+        $data = $request->validate([
+            'nom' => ['string', 'max:10'],
+            'telephone' => ['numeric', 'max:14'],
+            'email' => ['nullable', 'max:255'],
+            'adresses' => ['nullable', 'max:255']
+        ]);
+
+    
+        $data['CodeMecan'] = "Meca". substr(time(), 0, -4) . mt_rand(1000, 9999);
+
+        Mecanicien::create($data);
+
+        return redirect()->route('mecanicien.index')->with('success', 'Mecanicien créé avec succès!');
     }
 
     /**
@@ -45,6 +62,8 @@ class MecanicienController extends Controller
     public function edit(Mecanicien $mecanicien)
     {
         //
+        return view('mecanicien.edit', compact('mecanicien'));
+
     }
 
     /**
@@ -53,6 +72,18 @@ class MecanicienController extends Controller
     public function update(Request $request, Mecanicien $mecanicien)
     {
         //
+
+        $data = $request->validate([
+            'nom' => ['string', 'max:10'],
+            'telephone' => ['numeric', 'max:14'],
+            'email' => ['nullable', 'max:255'],
+            'adresses' => ['nullable', 'max:255']
+        ]);
+
+        $mecanicien->update($data);
+
+        return redirect()->route('mecanicien.index')->with('success', 'mecanicien Modifié avec succès!');
+
     }
 
     /**
@@ -61,5 +92,9 @@ class MecanicienController extends Controller
     public function destroy(Mecanicien $mecanicien)
     {
         //
+        $mecanicien->delete();
+
+        return redirect()->route('mecanicien.index')->with('success', 'mecanicien supprimé avec succès!');
+
     }
 }

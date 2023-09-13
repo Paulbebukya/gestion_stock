@@ -13,6 +13,10 @@ class PieceController extends Controller
     public function index()
     {
         //
+
+        $pieces= Piece::orderBy('created_at', 'desc')->paginate(10);
+        
+        return view('mecanicien.index',compact('pieces'));
     }
 
     /**
@@ -29,6 +33,18 @@ class PieceController extends Controller
     public function store(Request $request)
     {
         //
+
+        $data = $request->validate([
+            'designation' => ['string', 'max:10'],
+            'prix' => ['numeric', 'max:14'],
+            'quantite' => ['nullable', 'max:255']
+        ]);
+
+        $data['CodePiece'] ="Pie". substr(time(), 0, -4) . mt_rand(1000, 9999);
+
+        Piece::create($data);
+
+        return redirect()->route('piece.index')->with('success', 'piece créé avec succès!');
     }
 
     /**
@@ -45,6 +61,7 @@ class PieceController extends Controller
     public function edit(Piece $piece)
     {
         //
+        return  view('piece.edit', compact('piece'));
     }
 
     /**
@@ -53,6 +70,16 @@ class PieceController extends Controller
     public function update(Request $request, Piece $piece)
     {
         //
+        $data = $request->validate([
+            'designation' => ['string', 'max:10'],
+            'prix' => ['numeric', 'max:14'],
+            'quantite' => ['nullable', 'max:255']
+        ]);
+
+        $piece->update($data);
+
+        return redirect()->route('piece.index')->with('success', 'piece modifiée avec succès!');
+
     }
 
     /**
@@ -61,5 +88,9 @@ class PieceController extends Controller
     public function destroy(Piece $piece)
     {
         //
+        $piece->delete();
+
+        return redirect()->route('piece.index')->with('success', 'piece supprimée avec succès!');
+
     }
 }

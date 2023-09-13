@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Piece;
 use App\Models\Commander;
+use App\Models\Mecanicien;
 use Illuminate\Http\Request;
 
 class CommanderController extends Controller
@@ -12,7 +14,15 @@ class CommanderController extends Controller
      */
     public function index()
     {
-        //
+          //
+    
+        $commandes = Commander::orderBy("created_at", 'desc')->paginate(10);
+
+        $mecaniciens = Mecanicien::orderBy('created_at', 'desc')->get();
+
+        $pieces = Piece::orderBy('created_at', 'desc')->get();
+
+        return view('commande.index', compact('commandes', 'mecaniciens', 'pieces'));
     }
 
     /**
@@ -29,6 +39,17 @@ class CommanderController extends Controller
     public function store(Request $request)
     {
         //
+        $data = $request->validate([
+            'mecaniciens_id' => ['numeric', 'max:10'],
+            'pieces_id' => ['numeric', 'max:10'],
+            'quantite' => ['numeric', 'max:255']
+        ]);
+
+        Commander::create($data);
+
+        return redirect()->route('commande.index')->with('success', 'Commande créée avec succès!');
+
+
     }
 
     /**
@@ -45,6 +66,12 @@ class CommanderController extends Controller
     public function edit(Commander $commander)
     {
         //
+
+        $mecaniciens = Mecanicien::orderBy('created_at', 'desc')->get();
+
+        $pieces = Piece::orderBy('created_at', 'desc')->get();
+
+        return view('commande.edit', compact('commander', 'mecaniciens', 'pieces'));
     }
 
     /**
@@ -53,6 +80,15 @@ class CommanderController extends Controller
     public function update(Request $request, Commander $commander)
     {
         //
+        $data = $request->validate([
+            'mecaniciens_id' => ['numeric', 'max:10'],
+            'pieces_id' => ['numeric', 'max:10'],
+            'quantite' => ['numeric', 'max:255']
+        ]);
+
+        $commander->update($data);
+
+        return redirect()->route('commande.index')->with('success', 'commande modifée avec succès!');
     }
 
     /**
@@ -61,5 +97,9 @@ class CommanderController extends Controller
     public function destroy(Commander $commander)
     {
         //
+        $commander->delete();
+
+        return redirect()->route('commande.index')->with('success', "commande supprimée avec succès!");
+
     }
 }

@@ -2,10 +2,24 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Commander;
+use App\Models\Approvionner;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Piece extends Model
 {
     use HasFactory;
+
+    protected $fillable=[
+        'CodePiece','designation','prix','quantite'
+    ];
+
+    public function Approvionner(){
+        return $this->hasMany(Approvionner::class);
+    }
+
+    public function Commander(){
+        return $this->hasMany(Commander::class);
+    }
 }
