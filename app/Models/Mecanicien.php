@@ -2,10 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Commander;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Mecanicien extends Model
 {
     use HasFactory;
+
+    protected $fillable=[
+        'CodeMecan','nom','telephone','email','adresses'
+    ];
+
+    public function Commander(){
+        return $this->hasMany(Commander::class);
+    }
+
+    
 }
