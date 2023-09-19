@@ -23,6 +23,54 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+// ROUTES VERS LE FOURNISSEUR
+Route::get('/fournisseur-tables', function () {
+    return view('fournisseur.table');
+})->name("fournisseur-tables");
+
+Route::get('/create', function () {
+    return view('fournisseur.index');
+})->name("fournisseur.index");
+// Fin route fournisseur
+
+
+// Route vers Le Mecanicien
+Route::get('/Mecanicien-create', function () {
+    return view('Mecanicien.index');
+})->name("Mecanicien.index");
+
+Route::get('/Mecanicien-table', function () {
+    return view('Mecanicien.table');
+})->name("Mecanicien.table");
+// FIn ROUTES MEC
+// Route Pour AJOUTER LES PIECES
+Route::get('/Piece-create', function () {
+    return view('Piece.index');
+})->name("Piece.index");
+
+Route::get('/Piece-table', function () {
+    return view('Piece.table');
+})->name("Piece.table");
+// Fin ROute Pièce
+
+// ROUTE COMMANDES
+Route::get('/Commande-create', function () {
+    return view('Commande.index');
+})->name("Commande.index");
+
+Route::get('/Commande-table', function () {
+    return view('Commande.table');
+})->name("Commande.table");
+// FIN ROUTES COMMANDES
+// ROUTE APPROVISIONNEMENT
+Route::get('/Approvisionnement-create', function () {
+    return view('Approvisionnement.index');
+})->name("Approvisionnement.index");
+
+Route::get('/Approvisionnement-table', function () {
+    return view('Approvisionnement.table');
+})->name("Approvisionnement.table");
+// FIN ROUTES APPROVISIONNEMENT
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -44,7 +92,7 @@ Route::controller(FournisseurController::class)->group(function(){
 
 });
 
-//crud mecanicien 
+//crud mecanicien
 Route::controller(MecanicienController::class)->group(function(){
     route::get('/mecanicien', 'index')->name('mecanicien.index');
     route::get('/mecanicien/edit', 'edit')->name('mecanicien.edit');
