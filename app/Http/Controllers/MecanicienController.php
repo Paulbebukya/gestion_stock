@@ -22,9 +22,11 @@ class MecanicienController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function table()
     {
-        //
+        //  
+        $mecaniciens= Mecanicien::orderBy('created_at', 'desc')->paginate(10);
+        return view('Mecanicien.table', compact('mecaniciens'));
     }
 
     /**
@@ -34,8 +36,8 @@ class MecanicienController extends Controller
     {
         //
         $data = $request->validate([
-            'nom' => ['string', 'max:10'],
-            'telephone' => ['numeric', 'max:14'],
+            'nom' => ['string'],
+            'telephone' => ['numeric'],
             'email' => ['nullable', 'max:255'],
             'adresses' => ['nullable', 'max:255']
         ]);
@@ -61,7 +63,6 @@ class MecanicienController extends Controller
      */
     public function edit(Mecanicien $mecanicien)
     {
-        //
         return view('mecanicien.edit', compact('mecanicien'));
 
     }
@@ -75,7 +76,7 @@ class MecanicienController extends Controller
 
         $data = $request->validate([
             'nom' => ['string', 'max:10'],
-            'telephone' => ['numeric', 'max:14'],
+            'telephone' => ['numeric',],
             'email' => ['nullable', 'max:255'],
             'adresses' => ['nullable', 'max:255']
         ]);

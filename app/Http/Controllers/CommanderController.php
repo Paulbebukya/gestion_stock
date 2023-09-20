@@ -28,9 +28,13 @@ class CommanderController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function table()
     {
         //
+        $commandes = Commander::orderBy("created_at", 'desc')->paginate(10);
+
+    return view('Commande.table',compact('commandes'));
+
     }
 
     /**
@@ -40,11 +44,12 @@ class CommanderController extends Controller
     {
         //
         $data = $request->validate([
-            'mecaniciens_id' => ['numeric', 'max:10'],
-            'pieces_id' => ['numeric', 'max:10'],
-            'quantite' => ['numeric', 'max:255']
+            'mecaniciens_id' => ['numeric'],
+            'pieces_id' => ['numeric'],
+            'quantite' => ['numeric']
         ]);
 
+        
         Commander::create($data);
 
         return redirect()->route('commande.index')->with('success', 'Commande créée avec succès!');
@@ -81,9 +86,9 @@ class CommanderController extends Controller
     {
         //
         $data = $request->validate([
-            'mecaniciens_id' => ['numeric', 'max:10'],
-            'pieces_id' => ['numeric', 'max:10'],
-            'quantite' => ['numeric', 'max:255']
+            'mecaniciens_id' => ['numeric'],
+            'pieces_id' => ['numeric'],
+            'quantite' => ['numeric']
         ]);
 
         $commander->update($data);

@@ -21,56 +21,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
-// ROUTES VERS LE FOURNISSEUR
-Route::get('/fournisseur-tables', function () {
-    return view('fournisseur.table');
-})->name("fournisseur-tables");
-
-Route::get('/create', function () {
-    return view('fournisseur.index');
-})->name("fournisseur.index");
-// Fin route fournisseur
-
-
-// Route vers Le Mecanicien
-Route::get('/Mecanicien-create', function () {
-    return view('Mecanicien.index');
-})->name("Mecanicien.index");
-
-Route::get('/Mecanicien-table', function () {
-    return view('Mecanicien.table');
-})->name("Mecanicien.table");
-// FIn ROUTES MEC
-// Route Pour AJOUTER LES PIECES
-Route::get('/Piece-create', function () {
-    return view('Piece.index');
-})->name("Piece.index");
-
-Route::get('/Piece-table', function () {
-    return view('Piece.table');
-})->name("Piece.table");
-// Fin ROute Pièce
-
-// ROUTE COMMANDES
-Route::get('/Commande-create', function () {
-    return view('Commande.index');
-})->name("Commande.index");
-
-Route::get('/Commande-table', function () {
-    return view('Commande.table');
-})->name("Commande.table");
-// FIN ROUTES COMMANDES
-// ROUTE APPROVISIONNEMENT
-Route::get('/Approvisionnement-create', function () {
-    return view('Approvisionnement.index');
-})->name("Approvisionnement.index");
-
-Route::get('/Approvisionnement-table', function () {
-    return view('Approvisionnement.table');
-})->name("Approvisionnement.table");
-// FIN ROUTES APPROVISIONNEMENT
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -86,18 +38,22 @@ Route::middleware('auth')->group(function () {
 // crud fournisseur
 Route::controller(FournisseurController::class)->group(function(){
      route::get('/fournisseur', 'index')->name('fournisseur.index');
-     route::get('/fournisseur/edit', 'edit')->name('fournisseur.edit');
-     route::get('/fournisseur/update', 'update')->name('fournisseur.update');
-     route::get('/fournisseur/destroy/', 'destroy')->name('fournisseur.destroy');
+     route::post('/fournisseur/create', 'store')->name('fournisseur.store');
+     route::get('/fournisseur/edit/{fournisseur:CodeFourn}', 'edit')->name('fournisseur.edit');
+     route::put('/fournisseur/update/{fournisseur:CodeFourn}', 'update')->name('fournisseur.update');
+     route::get('/fournisseur/destroy/{fournisseur:CodeFourn}', 'destroy')->name('fournisseur.destroy');
+     route::get('/fournisseur-tables', 'table')->name("fournisseur-tables");
 
 });
 
 //crud mecanicien
 Route::controller(MecanicienController::class)->group(function(){
     route::get('/mecanicien', 'index')->name('mecanicien.index');
-    route::get('/mecanicien/edit', 'edit')->name('mecanicien.edit');
-    route::get('/mecanicien/update', 'update')->name('mecanicien.update');
-    route::get('/mecanicien/destroy/', 'destroy')->name('mecanicien.destroy');
+    route::post('/mecanicien/create', 'store')->name('mecanicien.store');
+    route::get('/mecanicien/table', 'table')->name('mecanicien.table');
+    route::get('/mecanicien/edit/{mecanicien:CodeMecan}', 'edit')->name('mecanicien.edit');
+    route::put('/mecanicien/update/{mecanicien:CodeMecan}', 'update')->name('mecanicien.update');
+    route::get('/mecanicien/destroy/{mecanicien:CodeMecan}', 'destroy')->name('mecanicien.destroy');
 
 });
 
@@ -105,9 +61,11 @@ Route::controller(MecanicienController::class)->group(function(){
 //crud piece
 Route::controller(PieceController::class)->group(function(){
     route::get('/piece', 'index')->name('piece.index');
-    route::get('/piece/edit', 'edit')->name('piece.edit');
-    route::get('/piece/update', 'update')->name('piece.update');
-    route::get('/piece/destroy/', 'destroy')->name('piece.destroy');
+    route::get('/piece/table', 'table')->name('Piece.table');
+    route::post('/piece/create', 'store')->name('piece.store');
+    route::get('/piece/edit/{piece:CodePiece}', 'edit')->name('piece.edit');
+    route::put('/piece/update/{piece:CodePiece}', 'update')->name('piece.update');
+    route::get('/piece/destroy/{piece:CodePiece}', 'destroy')->name('piece.destroy');
 
 });
 
@@ -115,9 +73,11 @@ Route::controller(PieceController::class)->group(function(){
 //crud commander
 Route::controller(CommanderController::class)->group(function(){
     route::get('/commande', 'index')->name('commande.index');
-    route::get('/commande/edit', 'edit')->name('commande.edit');
-    route::get('/commande/update', 'update')->name('commande.update');
-    route::get('/commande/destroy/', 'destroy')->name('commande.destroy');
+    route::get('/commande/table', 'table')->name("Commande.table");
+    route::post('/commande/create', 'store')->name('commande.store');
+    route::get('/commande/edit/{commander}', 'edit')->name('commande.edit');
+    route::put('/commande/update/{commander}', 'update')->name('commande.update');
+    route::get('/commande/destroy/{commander}', 'destroy')->name('commande.destroy');
 
 });
 
@@ -125,9 +85,11 @@ Route::controller(CommanderController::class)->group(function(){
 //crud approvionner
 Route::controller(ApprovionnerController::class)->group(function(){
     route::get('/approvionner', 'index')->name('approvionner.index');
-    route::get('/approvionner/edit', 'edit')->name('approvionner.edit');
-    route::get('/approvionner/update', 'update')->name('approvionner.update');
-    route::get('/approvionner/destroy/', 'destroy')->name('approvionner.destroy');
+    route::get('/approvionner/table', 'table')->name('approvisionnement.table');
+    route::post('/approvionner/create', 'store')->name('approvionner.store');
+    route::get('/approvionner/edit/{approvionner}', 'edit')->name('approvionner.edit');
+    route::put('/approvionner/update/{approvionner}', 'update')->name('approvionner.update');
+    route::get('/approvionner/destroy/{approvionner}', 'destroy')->name('approvionner.destroy');
 });
 
 

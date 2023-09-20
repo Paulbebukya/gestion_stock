@@ -13,7 +13,7 @@ class FournisseurController extends Controller
     public function index()
     {
         //
-        $fournisseurs= Fournisseur::orderBy('created_at', 'desc')->paginate(10);
+        $fournisseurs= Fournisseur::orderBy('created_at', 'desc')->paginate(8);
 
         return view('fournisseur.index', compact('fournisseurs'));
     }
@@ -27,6 +27,11 @@ class FournisseurController extends Controller
         //
     }
 
+    public function table(){
+        $fournisseurs= Fournisseur::orderBy('created_at', 'desc')->paginate(9);
+        return view('fournisseur.table', compact('fournisseurs'));
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -35,7 +40,7 @@ class FournisseurController extends Controller
         //
         $data = $request->validate([
             'nom' => ['string', 'max:10'],
-            'telephone' => ['numeric', 'max:14'],
+            'telephone' => ['numeric','required'],
             'email' => ['nullable', 'max:255'],
             'adresses' => ['nullable', 'max:255']
         ]);
@@ -51,10 +56,7 @@ class FournisseurController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Fournisseur $fournisseur)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -72,8 +74,8 @@ class FournisseurController extends Controller
     {
         //
         $data = $request->validate([
-            'nom' => ['string', 'max:10'],
-            'telephone' => ['numeric', 'max:14'],
+            'nom' => ['string', 'required'],
+            'telephone' => ['numeric', 'required'],
             'email' => ['nullable', 'max:255'],
             'adresses' => ['nullable', 'max:255']
         ]);

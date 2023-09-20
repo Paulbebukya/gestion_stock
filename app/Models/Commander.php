@@ -15,11 +15,11 @@ class Commander extends Model
         'mecaniciens_id','pieces_id','quantite'
     ];
 
-    public function Mecanicien(){
+    public function mecaniciens(){
         return $this->belongsTo(Mecanicien::class);
     }
 
-    public function Piece(){
+    public function pieces(){
         return $this->belongsTo(Piece::class);
     }
 }

@@ -14,7 +14,7 @@ class Mecanicien extends Model
         'CodeMecan','nom','telephone','email','adresses'
     ];
 
-    public function Commander(){
+    public function commanders(){
         return $this->hasMany(Commander::class);
     }
 

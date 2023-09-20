@@ -12,51 +12,45 @@
     </div><!-- End Page Title -->
     <section class="section">
       <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-5">
 
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Veuillez remplir ce formulaire</h5>
 
               <!-- General Form Elements -->
-              <form>
+              <form action="{{route('commande.store')}}" method="post">
+                @csrf
                 <div class="row mb-3">
-                  <label for="inputNumber" class="col-sm-2 col-form-label">Id Meca</label>
-                  <div class="col-sm-10">
+                  <label for="inputNumber" class="col-sm-3 col-form-label">Mecanicien</label>
+                  <div class="col-sm-9">
                     <select id="inputNumber" name="mecaniciens_id" class="form-select">
-                    <option selected>Mec01</option>
-                    <option>Mec02</option>
+                    <option selected></option>
+                    @foreach ($mecaniciens as $mecanicien)
+                      
+                    <option value="{{ $mecanicien->id }}">{{ $mecanicien->nom }}</option>
+                    @endforeach
                   </select>
                   </div>
                 </div>
                  <div class="row mb-3">
-                  <label for="inputNumber" class="col-sm-2 col-form-label">Id Pièce</label>
-                  <div class="col-sm-10">
+                  <label for="inputNumber" class="col-sm-3 col-form-label">Piece</label>
+                  <div class="col-sm-9">
                     <select id="inputNumber" name="pieces_id" class="form-select">
-                    <option selected>P01</option>
-                    <option>P02</option>
+                      <option ></option>
+                      @foreach ($pieces as $piece)
+                    <option value="{{ $piece->id }}">{{ $piece->designation }}</option>
+                    @endforeach
                   </select>
                   </div>
                 </div>
                  <div class="row mb-3">
-                  <label for="inputNumber" class="col-sm-2 col-form-label">Quantité</label>
-                  <div class="col-sm-10">
-                    <input type="number" name="	quantite" class="form-control">
+                  <label for="inputNumber" class="col-sm-3 col-form-label">Quantité</label>
+                  <div class="col-sm-9">
+                    <input type="number" name="quantite" class="form-control">
                   </div>
                 </div>
-                <div class="row mb-3">
-                  <label for="inputDate" class="col-sm-2 col-form-label">Date Creation</label>
-                  <div class="col-sm-10">
-                    <input type="date" name="created_at" class="form-control">
-                  </div>
-                </div>
-                <div class="row mb-3">
-                  <label for="inputTime" class="col-sm-2 col-form-label">Date Modification</label>
-                  <div class="col-sm-10">
-                    <input type="date" name="updated_at" class="form-control">
-                  </div>
-                </div>
-
+               
                 <div class="row mb-3">
                   <div class="col-sm-10">
                     <button type="submit" class="btn btn-primary">Enregistrer</button>
@@ -70,16 +64,44 @@
 
         </div>
 
-        <div class="col-lg-6">
+        <div class="col-lg-7">
 
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Les Commandes Enregistrées</h5>
+              <table class="table datatable">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Mecancien</th>
+                                    <th scope="col">Piece</th>
+                                    <th scope="col">Quantité</th>
+                                    <th scope="col">Date d'ajout</th>
+                                    <th scope="col">Actions</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    @foreach ($commandes as $commande)
+                                        <th scope="row">{{ $loop->index + 1 }}</th>
+                                        <td>{{ $commande->mecaniciens->nom }}</td>
+                                        <td>{{ $commande->pieces->designation }}</td>
+                                        <td>{{ $commande->quantite }}</td>
+                                        <td>{{ $commande->created_at->format('d/m/Y') }}</td>
+                                        <td>
+                                            <a href="{{ route('commande.edit',$commande) }}" style="color:blue"><i class="bi bi-pen"></i></a>
+                                            <a href="{{ route('commande.destroy', $commande) }}" style="color:red"><i class="bi bi-trash"
+                                                    color="red"></i></a>
+                                        </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                 <a href="{{route('Commande.table')}}">Voir Plus</a>
             </div>
 
           </div>
-          <a href="#" type="button" class="btn btn-secondary rounded-pill">Suivant</a>
 
         </div>
       </div>

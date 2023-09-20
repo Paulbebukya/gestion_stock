@@ -19,7 +19,8 @@
               <h5 class="card-title">Veuillez remplir ce formulaire</h5>
 
               <!-- General Form Elements -->
-              <form>
+              <form action="{{ route('mecanicien.store') }}" method="post">
+              @csrf
                 <div class="row mb-3">
                   <label for="inputText" class="col-sm-2 col-form-label">Nom Complet</label>
                   <div class="col-sm-10">
@@ -27,7 +28,7 @@
                   </div>
                 </div>
                  <div class="row mb-3">
-                  <label for="inputNumber" class="col-sm-2 col-form-label">Telephone</label>
+                  <label for="inputNumber" class="col-sm-2 col-form-label">Phone</label>
                   <div class="col-sm-10">
                     <input type="number" name="telephone" class="form-control">
                   </div>
@@ -42,18 +43,6 @@
                   <label for="inputText" class="col-sm-2 col-form-label">Adresse</label>
                   <div class="col-sm-10">
                     <input type="text" name="adresses" class="form-control">
-                  </div>
-                </div>
-                <div class="row mb-3">
-                  <label for="inputDate" class="col-sm-2 col-form-label">Date Creation</label>
-                  <div class="col-sm-10">
-                    <input type="date" name="created_at" class="form-control">
-                  </div>
-                </div>
-                <div class="row mb-3">
-                  <label for="inputTime" class="col-sm-2 col-form-label">Date Modification</label>
-                  <div class="col-sm-10">
-                    <input type="date" name="updated_at" class="form-control">
                   </div>
                 </div>
 
@@ -75,12 +64,40 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Les Mecaniciens Enregistrés</h5>
-                <a href="{{route('Mecanicien.table')}}">Voir Plus</a>
+                  <table class="table datatable">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Noms</th>
+                                    <th scope="col">Télephone</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Adresse</th>
+                                    <th scope="col">Actions</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    @foreach ($mecaniciens as $mecanicien)
+                                        <th scope="row">{{ $loop->index + 1 }}</th>
+                                        <td>{{ $mecanicien->nom }}</td>
+                                        <td>{{ $mecanicien->telephone }}</td>
+                                        <td>{{ $mecanicien->email }}</td>
+                                        <td>{{ $mecanicien->adresses }}</td>
+                                        <td>
+                                            <a href="{{ route('mecanicien.edit', $mecanicien) }}" style="color:blue"><i
+                                                    class="bi bi-pen"></i></a>
+                                            <a href="{{ route('mecanicien.destroy', $mecanicien) }}" style="color:red"><i
+                                                    class="bi bi-trash" color="red"></i></a>
+                                        </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                <a href="{{route('mecanicien.table')}}">Voir Plus</a>
             </div>
 
           </div>
-          <a href="#" type="button" class="btn btn-secondary rounded-pill">Suivant</a>
-
         </div>
       </div>
     </section>

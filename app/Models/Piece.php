@@ -19,7 +19,7 @@ class Piece extends Model
         return $this->hasMany(Approvionner::class);
     }
 
-    public function Commander(){
+    public function commanders(){
         return $this->hasMany(Commander::class);
     }
 }

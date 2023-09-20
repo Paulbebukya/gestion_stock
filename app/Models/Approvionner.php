@@ -15,11 +15,11 @@ class Approvionner extends Model
         'fournisseurs_id','pieces_id','quantite'
     ];
 
-    public function Fournisseur(){
+    public function fournisseurs(){
         return $this->belongsTo(Fournisseur::class);
     }
 
-    public function Piece(){
+    public function pieces(){
         return $this->belongsTo(Piece::class);
     }
 }

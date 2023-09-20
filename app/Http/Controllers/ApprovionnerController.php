@@ -21,15 +21,18 @@ class ApprovionnerController extends Controller
 
         $pieces = Piece::orderBy('created_at', 'desc')->get();
 
-        return view('approvionner.index', compact('approvionners', 'fournisseurs', 'pieces'));
+        return view('Approvisionnement.index', compact('approvionners', 'fournisseurs', 'pieces'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function table()
     {
         //
+        $approvionners = Approvionner::orderBy("created_at", 'desc')->paginate(10);
+
+        return view('Approvisionnement.table', compact('approvionners'));
     }
 
     /**
@@ -39,9 +42,9 @@ class ApprovionnerController extends Controller
     {
         //
         $data = $request->validate([
-            'fournisseurs_id' => ['numeric', 'max:10'],
-            'pieces_id' => ['numeric', 'max:10'],
-            'quantite' => ['numeric', 'max:255']
+            'fournisseurs_id' => ['numeric'],
+            'pieces_id' => ['numeric'],
+            'quantite' => ['numeric']
         ]);
 
     
@@ -50,7 +53,7 @@ class ApprovionnerController extends Controller
 
         if ($approvionner) {
 
-            $piece = Piece::where("id", $data['pieces_id'])->fist();
+            $piece = Piece::where("id", $data['pieces_id'])->first();
 
             $quantite_update = $piece->quantite + $data['quantite'];
 
@@ -84,7 +87,7 @@ class ApprovionnerController extends Controller
 
         $pieces = Piece::orderBy('created_at', 'desc')->get();
 
-        return view('approvionner.edit', compact('approvionner', 'fournisseurs', 'pieces'));
+        return view('Approvisionnement.edit', compact('approvionner', 'fournisseurs', 'pieces'));
     }
 
     /**
@@ -94,9 +97,9 @@ class ApprovionnerController extends Controller
     {
         //
         $data = $request->validate([
-            'fournisseurs_id' => ['numeric', 'max:10'],
-            'pieces_id' => ['numeric', 'max:10'],
-            'quantite' => ['numeric', 'max:255']
+            'fournisseurs_id' => ['numeric'],
+            'pieces_id' => ['numeric'],
+            'quantite' => ['numeric']
         ]);
 
         $approvionner->update($data);

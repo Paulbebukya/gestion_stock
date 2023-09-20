@@ -16,15 +16,18 @@ class PieceController extends Controller
 
         $pieces= Piece::orderBy('created_at', 'desc')->paginate(10);
         
-        return view('mecanicien.index',compact('pieces'));
+        return view('Piece.index',compact('pieces'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function table()
     {
         //
+        $pieces= Piece::orderBy('created_at', 'desc')->paginate(10);
+        return view('Piece.table',compact('pieces'));
+
     }
 
     /**
@@ -35,8 +38,8 @@ class PieceController extends Controller
         //
 
         $data = $request->validate([
-            'designation' => ['string', 'max:10'],
-            'prix' => ['numeric', 'max:14'],
+            'designation' => ['string','max:255' ],
+            'prix' => ['numeric'],
             'quantite' => ['nullable', 'max:255']
         ]);
 
@@ -72,7 +75,7 @@ class PieceController extends Controller
         //
         $data = $request->validate([
             'designation' => ['string', 'max:10'],
-            'prix' => ['numeric', 'max:14'],
+            'prix' => ['numeric'],
             'quantite' => ['nullable', 'max:255']
         ]);
 
